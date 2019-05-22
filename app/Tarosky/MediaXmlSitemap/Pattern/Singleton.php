@@ -13,7 +13,6 @@ abstract class Singleton {
      * @var static[]
      */
     private static $instances = [];
-	private static $count;
 
     /**
      * Constructor
@@ -36,17 +35,9 @@ abstract class Singleton {
      */
     final public static function get_instance() {
         $class_name = get_called_class();
-
-        error_log($class_name);
-        self::$count++;
-	    error_log(self::$count);
-
         if ( ! isset( self::$instances[ $class_name ] ) ) {
             self::$instances[ $class_name ] = new $class_name();
         }
-
-	    error_log(print_r(self::$instances,true));
-
         return self::$instances[ $class_name ];
     }
 }

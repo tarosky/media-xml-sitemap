@@ -3,6 +3,8 @@
 namespace Tarosky;
 
 use Tarosky\MediaXmlSitemap\Admin;
+use Tarosky\MediaXmlSitemap\News;
+use Tarosky\MediaXmlSitemap\Rules;
 use Tarosky\MediaXmlSitemap\Pattern\Singleton;
 
 /**
@@ -15,13 +17,6 @@ class MediaXmlSitemap extends Singleton {
 	private $slug = 'media-xml-sitemap';
 
 	/**
-	 * Constructor
-	 */
-	protected function init() {
-		//
-	}
-
-	/**
 	 * Register
 	 */
 	public function register() {
@@ -29,7 +24,11 @@ class MediaXmlSitemap extends Singleton {
 			Admin::get_instance();
 		}
 
+		Rules::get_instance();
+
 		// TODO: sitemap
+//		News::get_instance();
+//		Sitemap::get_instance();
 	}
 
 	/**
