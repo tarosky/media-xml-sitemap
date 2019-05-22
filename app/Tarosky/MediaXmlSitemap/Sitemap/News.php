@@ -3,14 +3,13 @@
 namespace Tarosky\MediaXmlSitemap\Sitemap;
 
 use Tarosky\MediaXmlSitemap;
-use Tarosky\MediaXmlSitemap\Pattern\Singleton;
 
 /**
  * Google News Sitemap
  *
  * @package Media_Xml_Sitemap
  */
-class News extends Singleton {
+class News extends SitemapBase {
 
 	private $slug;
 
@@ -34,22 +33,14 @@ class News extends Singleton {
 			return;
 		}
 
-		$wp_query->set( 'feed', 'sitemap' );
 		$mxs_type = $wp_query->get( 'mxs_type' );
 
 		switch ( $mxs_type ) {
-			case 'index':
-				add_action( 'do_feed_sitemap', [ $this, 'sitemap_index' ] );
-				break;
 			case 'news':
+				$wp_query->set( 'feed', 'sitemap' );
 				add_action( 'do_feed_sitemap', [ $this, 'sitemap_news' ] );
 				break;
 			default:
-				//TODO：表示可能な投稿タイプかチェック
-				if ( true ) {
-				} else {
-					$wp_query->set_404();
-				}
 				break;
 		}
 	}
@@ -58,7 +49,52 @@ class News extends Singleton {
 	 * Response Google News Sitemap.
 	 */
 	public function sitemap_news() {
-		//TODO:
-		echo "newssitemap";
+		$post_types = $this->options['news_post_types'];
+
+		$days_ago = new \DateTime( 'now', new \DateTimeZone( get_option( 'timezone_string' ) ) );
+		$days_ago->sub( new \DateInterval( 'P2D' ) );
+
+		$posts = get_posts( [
+			'post_type'      => $post_types,
+			'post_status'    => 'publish',
+			'posts_per_page' => 1000,
+			'date_query'     => [
+				[
+					'after' => [
+						'year'  => $days_ago->format( 'Y' ),
+						'month' => $days_ago->format( 'n' ),
+						'day'   => $days_ago->format( 'j' ),
+					],
+				],
+			],
+		] );
+
+		$publication_name     = get_bloginfo();
+		$publication_language = get_bloginfo( 'language' );
+
+		$this->xml_header();
+
+		?>
+		<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+		        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+			<url>
+				<loc>http://www.example.org/business/article55.html</loc>
+				<?php
+				foreach ( $posts as $post ):
+					?>
+					<news:news>
+						<news:publication>
+							<news:name><?php echo esc_html( $publication_name ); ?></news:name>
+							<news:language><?php echo esc_html( $publication_language ); ?></news:language>
+						</news:publication>
+						<news:publication_date><?php echo mysql2date( \DateTime::W3C, $post->post_date ); ?></news:publication_date>
+						<news:title><?php echo esc_html( $post->post_title ); ?></news:title>
+					</news:news>
+				<?php
+				endforeach;
+				?>
+			</url>
+		</urlset>
+		<?php
 	}
 }

@@ -4,6 +4,7 @@ namespace Tarosky\MediaXmlSitemap\Admin;
 
 use Tarosky\MediaXmlSitemap;
 use Tarosky\MediaXmlSitemap\Pattern\Singleton;
+use Tarosky\MediaXmlSitemap\Utility\Util;
 
 /**
  * Setting admin screen.
@@ -132,7 +133,7 @@ class Admin extends Singleton {
 	 * Render callback for sitemap post types.
 	 */
 	public function sitemap_post_types_callback() {
-		foreach ( $this->selected_post_types() as $post_type ) :
+		foreach ( Util::available_post_types() as $post_type ) :
 			?>
 			<label>
 				<input
@@ -184,7 +185,7 @@ class Admin extends Singleton {
 	 * Render callback for news post types.
 	 */
 	public function news_post_types_callback() {
-		foreach ( $this->selected_post_types() as $post_type ) :
+		foreach ( Util::available_post_types() as $post_type ) :
 			?>
 			<label>
 				<input
@@ -211,26 +212,6 @@ class Admin extends Singleton {
 		       id="news_within_days" value="<?php echo esc_attr( $news_within_days ); ?>"
 		       class="small-text">
 		<?php
-	}
-
-
-	/**
-	 * Get selected post_types.
-	 */
-	public function selected_post_types() {
-		$post_types = [];
-		foreach (
-			get_post_types( [
-				'show_ui' => true
-			], 'objects' ) as $post_type
-		) {
-			if ( $post_type->name == 'attachment' || $post_type->name == 'wp_block' ) {
-				continue;
-			}
-			$post_types[] = $post_type;
-		}
-
-		return $post_types;
 	}
 
 	/**
