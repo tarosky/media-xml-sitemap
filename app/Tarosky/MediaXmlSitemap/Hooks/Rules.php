@@ -1,6 +1,6 @@
 <?php
 
-namespace Tarosky\MediaXmlSitemap;
+namespace Tarosky\MediaXmlSitemap\Hooks;
 
 use Tarosky\MediaXmlSitemap;
 use Tarosky\MediaXmlSitemap\Pattern\Singleton;

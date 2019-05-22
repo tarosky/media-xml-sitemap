@@ -2,9 +2,9 @@
 
 namespace Tarosky;
 
-use Tarosky\MediaXmlSitemap\Admin;
-use Tarosky\MediaXmlSitemap\News;
-use Tarosky\MediaXmlSitemap\Rules;
+use Tarosky\MediaXmlSitemap\Admin\Admin;
+use Tarosky\MediaXmlSitemap\Hooks\Rules;
+use Tarosky\MediaXmlSitemap\Sitemap\News;
 use Tarosky\MediaXmlSitemap\Pattern\Singleton;
 
 /**
@@ -27,7 +27,7 @@ class MediaXmlSitemap extends Singleton {
 		Rules::get_instance();
 
 		// TODO: sitemap
-//		News::get_instance();
+		News::get_instance();
 //		Sitemap::get_instance();
 	}
 
