@@ -35,19 +35,43 @@ class Sitemap extends SitemapBase {
 		}
 
 		$mxs_type = $wp_query->get( 'mxs_type' );
+		if ( ! $mxs_type ) {
+			return;
+		}
+		$mxs_post_type = $wp_query->get( 'mxs_post_type' );
 
 		switch ( $mxs_type ) {
 			case 'index':
 				$wp_query->set( 'feed', 'sitemap' );
 				add_action( 'do_feed_sitemap', [ $this, 'sitemap_index' ] );
 				break;
-			default:
-				//TODO：表示可能な投稿タイプかチェック
-				if ( true ) {
+			case 'sitemap':
+				if ( in_array( $mxs_post_type, $this->options['sitemap_post_types'] ) ) {
 					$wp_query->set( 'feed', 'sitemap' );
+					$wp_query->set( 'post_type', $mxs_post_type );
+					$wp_query->set( 'post_status', 'publish' );
+					$wp_query->set( 'orderby', [ 'modified' => 'desc' ] );
+					$wp_query->set( 'posts_per_rss', 50000 );
+					$sitemap_within_days = $this->options['sitemap_within_days'] ?: Util::default_sitemap_within_days();
+					$days_ago            = new \DateTime( 'now', new \DateTimeZone( get_option( 'timezone_string' ) ) );
+					$days_ago->sub( new \DateInterval( sprintf( 'P%dD', $sitemap_within_days ) ) );
+					$wp_query->set( 'date_query', [
+						[
+							'after' => [
+								'year'  => $days_ago->format( 'Y' ),
+								'month' => $days_ago->format( 'n' ),
+								'day'   => $days_ago->format( 'j' ),
+							],
+						],
+					] );
+					add_action( 'do_feed_sitemap', [ $this, 'sitemap' ] );
 				} else {
 					$wp_query->set_404();
+					status_header( 404 );
+					exit;
 				}
+				break;
+			default:
 				break;
 		}
 	}
@@ -56,8 +80,7 @@ class Sitemap extends SitemapBase {
 	 * Response sitemap index.
 	 */
 	public function sitemap_index() {
-		$elements = [];
-
+		$elements   = [];
 		$post_types = implode( ',', array_map( function ( $type ) {
 			return "'{$type}'";
 		}, $this->options['sitemap_post_types'] ) );
@@ -94,22 +117,33 @@ SQL;
 	}
 
 	/**
-	 * Getter
-	 *
-	 * @param string $name
-	 *
-	 * @return null|\wpdb
+	 * Response sitemap.
 	 */
-	public function __get( $name ) {
-		switch ( $name ) {
-			case 'db':
-				global $wpdb;
-
-				return $wpdb;
-				break;
-			default:
-				return null;
-				break;
+	public function sitemap() {
+		$items = [];
+		while ( have_posts() ) {
+			the_post();
+			$item    = [
+				'url'     => get_permalink(),
+				'lastmod' => get_post_modified_time( 'Y-m-d H:i:s' ),
+			];
+			$items[] = $item;
 		}
+
+		$this->xml_header();
+		?>
+		<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+			<?php
+			foreach ( $items as $item ):
+				?>
+				<url>
+					<loc><?php echo esc_url( $item['url'] ); ?></loc>
+					<lastmod><?php echo mysql2date( \DateTime::W3C, $item['lastmod'] ); ?></lastmod>
+				</url>
+			<?php
+			endforeach;
+			?>
+		</urlset>
+		<?php
 	}
 }

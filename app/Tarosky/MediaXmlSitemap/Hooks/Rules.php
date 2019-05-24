@@ -32,6 +32,7 @@ class Rules extends Singleton {
 	 */
 	public function query_vars( $vars ) {
 		$vars[] = 'mxs_type';
+		$vars[] = 'mxs_post_type';
 
 		return $vars;
 	}
@@ -44,12 +45,15 @@ class Rules extends Singleton {
 		if ( ! empty( $this->options['sitemap_is_enable'] ) ) {
 			$new_rules = [
 				'^sitemap\.xml$'         => 'index.php?feed=rss&mxs_type=index',
-				'^sitemap/([^/]+)\.xml$' => 'index.php?feed=rss&mxs_type=$matches[1]',
+				'^sitemap/([^/]+)\.xml$' => 'index.php?feed=rss&mxs_type=sitemap&mxs_post_type=$matches[1]',
 			];
 		}
 		if ( ! empty( $this->options['news_is_enable'] ) ) {
 			$new_rules = array_merge(
-				[ '^sitemap-news\.xml$' => 'index.php?feed=rss&mxs_type=news' ],
+				[
+					'^sitemap-news\.xml$' => 'index.php?feed=rss&mxs_type=newsindex',
+					'^sitemap-news/([^/]+)\.xml$' => 'index.php?feed=rss&mxs_type=news&mxs_post_type=$matches[1]',
+				],
 				$new_rules
 			);
 		}

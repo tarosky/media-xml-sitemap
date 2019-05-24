@@ -42,4 +42,24 @@ class SitemapBase extends Singleton {
 		$time = current_time( 'timestamp', true ) + 60 + 60 * $hours;
 		header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', $time ) . ' GMT' );
 	}
+
+	/**
+	 * Getter
+	 *
+	 * @param string $name
+	 *
+	 * @return null|\wpdb
+	 */
+	public function __get( $name ) {
+		switch ( $name ) {
+			case 'db':
+				global $wpdb;
+
+				return $wpdb;
+				break;
+			default:
+				return null;
+				break;
+		}
+	}
 }
