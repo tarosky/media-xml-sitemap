@@ -5,6 +5,7 @@ namespace Tarosky;
 use Tarosky\MediaXmlSitemap\Admin\Admin;
 use Tarosky\MediaXmlSitemap\Hooks\Rules;
 use Tarosky\MediaXmlSitemap\Sitemap\News;
+use Tarosky\MediaXmlSitemap\Sitemap\Sitemap;
 use Tarosky\MediaXmlSitemap\Pattern\Singleton;
 
 /**
@@ -23,12 +24,9 @@ class MediaXmlSitemap extends Singleton {
 		if ( is_admin() ) {
 			Admin::get_instance();
 		}
-
 		Rules::get_instance();
-
-		// TODO: sitemap
 		News::get_instance();
-//		Sitemap::get_instance();
+		Sitemap::get_instance();
 	}
 
 	/**
