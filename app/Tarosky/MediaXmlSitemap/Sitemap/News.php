@@ -3,6 +3,7 @@
 namespace Tarosky\MediaXmlSitemap\Sitemap;
 
 use Tarosky\MediaXmlSitemap;
+use Tarosky\MediaXmlSitemap\Utility\Util;
 
 /**
  * Google News Sitemap
@@ -50,9 +51,10 @@ class News extends SitemapBase {
 	 */
 	public function sitemap_news() {
 		$post_types = $this->options['news_post_types'];
+		$news_within_days = $this->options['news_within_days'] ?: Util::default_news_within_days();
 
 		$days_ago = new \DateTime( 'now', new \DateTimeZone( get_option( 'timezone_string' ) ) );
-		$days_ago->sub( new \DateInterval( 'P2D' ) );
+		$days_ago->sub( new \DateInterval( sprintf( 'P%dD', $news_within_days ) ) );
 
 		$posts = get_posts( [
 			'post_type'      => $post_types,
@@ -77,11 +79,11 @@ class News extends SitemapBase {
 		?>
 		<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
 		        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
-			<url>
-				<loc>http://www.example.org/business/article55.html</loc>
-				<?php
-				foreach ( $posts as $post ):
-					?>
+			<?php
+			foreach ( $posts as $post ):
+				?>
+				<url>
+					<loc><?php echo esc_url( get_permalink( $post ) ); ?></loc>
 					<news:news>
 						<news:publication>
 							<news:name><?php echo esc_html( $publication_name ); ?></news:name>
@@ -90,10 +92,10 @@ class News extends SitemapBase {
 						<news:publication_date><?php echo mysql2date( \DateTime::W3C, $post->post_date ); ?></news:publication_date>
 						<news:title><?php echo esc_html( $post->post_title ); ?></news:title>
 					</news:news>
-				<?php
-				endforeach;
-				?>
-			</url>
+				</url>
+			<?php
+			endforeach;
+			?>
 		</urlset>
 		<?php
 	}

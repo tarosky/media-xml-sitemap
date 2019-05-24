@@ -154,11 +154,12 @@ class Admin extends Singleton {
 	 * Render callback for sitemap within days.
 	 */
 	public function sitemap_within_days_callback() {
-		$sitemap_within_days = isset( $this->options['sitemap_within_days'] ) ? $this->options['sitemap_within_days'] : '0';
+		$sitemap_within_days = isset( $this->options['sitemap_within_days'] ) ? $this->options['sitemap_within_days'] : '';
 		?>
 		<input name="<?php echo $this->slug; ?>[sitemap_within_days]" type="number" step="1" min="1"
 		       id="sitemap_within_days" value="<?php echo esc_attr( $sitemap_within_days ); ?>"
 		       class="small-text">
+		<p class="description"><?php printf( __( 'Default is <code>%s</code>.', 'media-xml-sitemap' ), Util::default_sitemap_within_days() ); ?></p>
 		<?php
 	}
 
@@ -206,11 +207,12 @@ class Admin extends Singleton {
 	 * Render callback for news within days.
 	 */
 	public function news_within_days_callback() {
-		$news_within_days = isset( $this->options['news_within_days'] ) ? $this->options['news_within_days'] : '0';
+		$news_within_days = isset( $this->options['news_within_days'] ) ? $this->options['news_within_days'] : '';
 		?>
 		<input name="<?php echo $this->slug; ?>[news_within_days]" type="number" step="1" min="1"
 		       id="news_within_days" value="<?php echo esc_attr( $news_within_days ); ?>"
 		       class="small-text">
+		<p class="description"><?php printf( __( 'Default is <code>%s</code>.', 'media-xml-sitemap' ), Util::default_news_within_days() ); ?></p>
 		<?php
 	}
 

@@ -19,6 +19,32 @@ class Util {
 	}
 
 	/**
+	 * Default sitemap within days.
+	 */
+	public static function default_sitemap_within_days() {
+
+		/**
+		 * Filters default sitemap within days.
+		 *
+		 * @param int
+		 */
+		return apply_filters( 'mxs_default_sitemap_within_days', 7 );
+	}
+
+	/**
+	 * Default news within days.
+	 */
+	public static function default_news_within_days() {
+
+		/**
+		 * Filters default news within days.
+		 *
+		 * @param int
+		 */
+		return apply_filters( 'mxs_default_news_within_days', 2 );
+	}
+
+	/**
 	 * Get available post_types.
 	 */
 	public static function available_post_types() {
