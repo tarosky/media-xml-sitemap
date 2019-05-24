@@ -145,6 +145,7 @@ class Admin extends Singleton {
 					<?php endif; ?>
 				/>
 				<?php echo $post_type->labels->name; ?>
+				<br />
 			</label>
 		<?php
 		endforeach;
@@ -199,6 +200,7 @@ class Admin extends Singleton {
 				/>
 				<?php echo $post_type->labels->name; ?>
 			</label>
+			<br />
 		<?php
 		endforeach;
 	}
