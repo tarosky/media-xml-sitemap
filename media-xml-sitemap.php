@@ -31,3 +31,9 @@ add_action( 'plugins_loaded', function () {
 	Tarosky\MediaXmlSitemap::get_instance()->register();
 } );
 
+/**
+ * Deactivation.
+ */
+register_deactivation_hook( __FILE__, function () {
+	Tarosky\MediaXmlSitemap::get_instance()->deactivation();
+} );

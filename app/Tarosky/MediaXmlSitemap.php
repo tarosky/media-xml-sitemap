@@ -30,6 +30,15 @@ class MediaXmlSitemap extends Singleton {
 	}
 
 	/**
+	 * Deactivation
+	 */
+	public function deactivation() {
+		delete_option( $this->get_slug() );
+		remove_filter( 'rewrite_rules_array', [ Rules::get_instance(), 'rewrite_rules' ], 99 );
+		flush_rewrite_rules();
+	}
+
+	/**
 	 * Get plugin slug.
 	 */
 	public function get_slug() {
