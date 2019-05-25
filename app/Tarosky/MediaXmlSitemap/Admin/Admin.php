@@ -86,6 +86,14 @@ class Admin extends Singleton {
 		);
 
 		add_settings_field(
+			'news_publication_name',
+			__( 'Publication_name', 'media-xml-sitemap' ),
+			[ $this, 'news_publication_name_callback' ],
+			$this->slug,
+			'news_settings'
+		);
+
+		add_settings_field(
 			'news_post_types',
 			__( 'Enable post types', 'media-xml-sitemap' ),
 			[ $this, 'news_post_types_callback' ],
@@ -172,6 +180,18 @@ class Admin extends Singleton {
 				<?php endif; ?>
 			/>
 		</label>
+		<?php
+	}
+
+	/**
+	 * Render callback for news publication name.
+	 */
+	public function news_publication_name_callback() {
+		$news_publication_name = isset( $this->options['news_publication_name'] ) ? $this->options['news_publication_name'] : '';
+		?>
+		<input name="<?php echo $this->slug; ?>[news_publication_name]" type="text" id="news_publication_name"
+		       value="<?php echo esc_attr( $news_publication_name ); ?>" class="regular-text">
+		<p class="description"><?php printf( __( 'Default is <code>%s</code>.', 'media-xml-sitemap' ), get_bloginfo() ); ?></p>
 		<?php
 	}
 

@@ -123,7 +123,7 @@ SQL;
 			$items[] = $item;
 		}
 
-		$publication_name     = get_bloginfo();
+		$publication_name     = $this->options['news_publication_name'] ?: get_bloginfo();
 		$publication_language = get_bloginfo( 'language' );
 
 		$this->xml_header();
