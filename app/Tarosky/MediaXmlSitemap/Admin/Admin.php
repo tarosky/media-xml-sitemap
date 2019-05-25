@@ -57,7 +57,7 @@ class Admin extends Singleton {
 		add_settings_field(
 			'sitemap_is_enable',
 			__( 'Enable sitemap', 'media-xml-sitemap' ),
-			array( $this, 'sitemap_is_enable_callback' ),
+			[ $this, 'sitemap_is_enable_callback' ],
 			$this->slug,
 			'sitemap_settings'
 		);
@@ -65,7 +65,7 @@ class Admin extends Singleton {
 		add_settings_field(
 			'sitemap_post_types',
 			__( 'Enable post types', 'media-xml-sitemap' ),
-			array( $this, 'sitemap_post_types_callback' ),
+			[ $this, 'sitemap_post_types_callback' ],
 			$this->slug,
 			'sitemap_settings'
 		);
@@ -88,7 +88,7 @@ class Admin extends Singleton {
 		add_settings_field(
 			'news_is_enable',
 			__( 'Enable sitemap', 'media-xml-sitemap' ),
-			array( $this, 'news_is_enable_callback' ),
+			[ $this, 'news_is_enable_callback' ],
 			$this->slug,
 			'news_settings'
 		);
@@ -96,7 +96,7 @@ class Admin extends Singleton {
 		add_settings_field(
 			'news_post_types',
 			__( 'Enable post types', 'media-xml-sitemap' ),
-			array( $this, 'news_post_types_callback' ),
+			[ $this, 'news_post_types_callback' ],
 			$this->slug,
 			'news_settings'
 		);
