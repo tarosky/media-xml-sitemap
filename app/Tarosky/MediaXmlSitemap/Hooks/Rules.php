@@ -2,7 +2,6 @@
 
 namespace Tarosky\MediaXmlSitemap\Hooks;
 
-use Tarosky\MediaXmlSitemap;
 use Tarosky\MediaXmlSitemap\Pattern\Singleton;
 
 /**
@@ -12,17 +11,10 @@ use Tarosky\MediaXmlSitemap\Pattern\Singleton;
  */
 class Rules extends Singleton {
 
-	private $slug;
-
-	private $options;
-
 	/**
 	 * Constructor
 	 */
 	protected function init() {
-		$this->slug    = MediaXmlSitemap::get_instance()->get_slug();
-		$this->options = get_option( $this->slug );
-
 		add_filter( 'rewrite_rules_array', [ $this, 'rewrite_rules' ] );
 		add_filter( 'query_vars', [ $this, 'query_vars' ] );
 	}

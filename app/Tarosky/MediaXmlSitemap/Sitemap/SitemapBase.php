@@ -2,7 +2,6 @@
 
 namespace Tarosky\MediaXmlSitemap\Sitemap;
 
-use Tarosky\MediaXmlSitemap;
 use Tarosky\MediaXmlSitemap\Pattern\Singleton;
 
 /**
@@ -12,16 +11,11 @@ use Tarosky\MediaXmlSitemap\Pattern\Singleton;
  */
 class SitemapBase extends Singleton {
 
-	private $slug;
-
-	private $options;
-
 	/**
 	 * Constructor
 	 */
 	protected function init() {
-		$this->slug    = MediaXmlSitemap::get_instance()->get_slug();
-		$this->options = get_option( $this->slug );
+		//
 	}
 
 	/**
@@ -41,25 +35,5 @@ class SitemapBase extends Singleton {
 	protected function expires_header( $hours = 1 ) {
 		$time = current_time( 'timestamp', true ) + 60 + 60 * $hours;
 		header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', $time ) . ' GMT' );
-	}
-
-	/**
-	 * Getter
-	 *
-	 * @param string $name
-	 *
-	 * @return null|\wpdb
-	 */
-	public function __get( $name ) {
-		switch ( $name ) {
-			case 'db':
-				global $wpdb;
-
-				return $wpdb;
-				break;
-			default:
-				return null;
-				break;
-		}
 	}
 }

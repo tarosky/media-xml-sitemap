@@ -2,7 +2,6 @@
 
 namespace Tarosky\MediaXmlSitemap\Sitemap;
 
-use Tarosky\MediaXmlSitemap;
 use Tarosky\MediaXmlSitemap\Utility\Util;
 
 /**
@@ -12,17 +11,10 @@ use Tarosky\MediaXmlSitemap\Utility\Util;
  */
 class News extends SitemapBase {
 
-	private $slug;
-
-	private $options;
-
 	/**
 	 * Constructor
 	 */
 	protected function init() {
-		$this->slug    = MediaXmlSitemap::get_instance()->get_slug();
-		$this->options = get_option( $this->slug );
-
 		add_action( 'pre_get_posts', [ $this, 'pre_get_posts' ] );
 	}
 

@@ -2,7 +2,6 @@
 
 namespace Tarosky\MediaXmlSitemap\Admin;
 
-use Tarosky\MediaXmlSitemap;
 use Tarosky\MediaXmlSitemap\Pattern\Singleton;
 use Tarosky\MediaXmlSitemap\Utility\Util;
 
@@ -13,17 +12,10 @@ use Tarosky\MediaXmlSitemap\Utility\Util;
  */
 class Admin extends Singleton {
 
-	private $slug;
-
-	private $options;
-
 	/**
 	 * Constructor
 	 */
 	protected function init() {
-		$this->slug    = MediaXmlSitemap::get_instance()->get_slug();
-		$this->options = get_option( $this->slug );
-
 		add_action( 'admin_menu', [ $this, 'admin_menu' ] );
 		add_action( 'admin_init', [ $this, 'admin_init' ] );
 	}
