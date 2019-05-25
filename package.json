@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "main": "Gruntfile.js",
   "scripts": {
-    "start": "",
+    "start": ""
   },
   "author": "tarosky",
   "devDependencies": {
