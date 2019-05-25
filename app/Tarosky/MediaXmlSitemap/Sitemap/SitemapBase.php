@@ -33,7 +33,8 @@ class SitemapBase extends Singleton {
 	 * Response expires header.
 	 */
 	protected function expires_header( $hours = 1 ) {
-		$time = current_time( 'timestamp', true ) + 60 + 60 * $hours;
+		$time = current_time( 'timestamp', true ) + 60 * 60 * $hours;
 		header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', $time ) . ' GMT' );
+		header( "Cache-Control: max-age=" . ( 60 * 60 * $hours ) );
 	}
 }
