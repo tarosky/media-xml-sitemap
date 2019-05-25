@@ -3,7 +3,7 @@
  * Plugin Name:     Media Xml Sitemap
  * Plugin URI:      PLUGIN SITE HERE
  * Description:     This is a plugin to create feeds for the XML Sitemap and the Google News Sitemap.
- * Author:          ko31
+ * Author:          tarosky, ko31
  * Author URI:      https://go-sign.info
  * Text Domain:     media-xml-sitemap
  * Domain Path:     /languages
