@@ -2,6 +2,9 @@
   "name": "media-xml-sitemap",
   "version": "0.1.0",
   "main": "Gruntfile.js",
+  "scripts": {
+    "start": "",
+  },
   "author": "tarosky",
   "devDependencies": {
     "grunt": "~0.4.5",
